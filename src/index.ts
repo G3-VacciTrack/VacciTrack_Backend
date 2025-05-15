@@ -7,11 +7,13 @@ const app = new Hono()
 app.use('*', cors())
 app.use(logger())
 
+//test
+
 Bun.serve({
   fetch(req) {
     return app.fetch(req)
   },
-  port: 3000,
+  port: 3001,
 })
 
 export default app
