@@ -15,6 +15,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "firebase-admin": "^13.4.0",
     "hono": "^4.7.9"
   }
 }
