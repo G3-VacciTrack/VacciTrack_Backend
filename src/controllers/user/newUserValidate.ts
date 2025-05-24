@@ -1,5 +1,5 @@
 import type { Context } from 'hono'
-import { db } from '../../services/firestore';
+import { db } from '../../utils/firestore';
 
 export default async function newUserValidate(c: Context) {
     try {
@@ -22,7 +22,7 @@ export default async function newUserValidate(c: Context) {
             return c.json({ status: true }, 200);
         }
     } catch (error) {
-        console.error('Error fetching allergens:', error);
+        console.error('Error fetching:', error);
         return c.json({ message: 'Internal server error' }, 500);
     }
 }

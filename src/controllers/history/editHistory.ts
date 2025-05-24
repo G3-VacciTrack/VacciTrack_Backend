@@ -1,0 +1,25 @@
+import type { Context } from 'hono'
+import { db } from '../../utils/firestore';
+
+export default async function editHistory(c: Context) {
+    try {
+        const historyId: string = c.req.param('historyId') || '';
+        const historyData = await c.req.json();
+        const { date, description, vaccineName, dose, location } = historyData;
+        const response = await db.collection('history').doc(historyId).update({
+            date,
+            vaccineName,
+            description,
+            dose,
+            location,
+            updatedAt: new Date(),
+        });
+        if (!response) {
+            return c.json({ message: 'Failed to update history' }, 500);
+        }
+        return c.json({ message: "History update success" }, 200);
+    } catch (error) {
+        console.error('Error fetching:', error);
+        return c.json({ message: 'Internal server error' }, 500);
+    }
+}
