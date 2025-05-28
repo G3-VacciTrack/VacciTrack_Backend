@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import { db } from '../utils/firestore';
+import { fsdb } from '../utils/firebase';
 import { sendNotification } from './notifier';
 import { options } from '../utils/customDate';
 
@@ -8,11 +8,11 @@ cron.schedule('* * * * *', async () => {
   const inFiveMinutes = new Date(now.getTime() + 5 * 60 * 1000);
 
   try {
-    const snapshot = await db.collection('appointment')
+    const snapshot = await fsdb.collection('appointment')
       .where('notifiedBeforeNoon', '==', false)
       .get();
 
-    const alertSnapshot = await db.collection('appointment')
+    const alertSnapshot = await fsdb.collection('appointment')
       .where('notifiedAlertDate', '==', false)
       .get();
 
@@ -40,7 +40,7 @@ cron.schedule('* * * * *', async () => {
         dateBeforeNoonDate <= inFiveMinutes &&
         dateBeforeNoonDate > now
       ) {
-        const userSnap = await db.collection('users').doc(userId).get();
+        const userSnap = await fsdb.collection('users').doc(userId).get();
         const userData = userSnap.data();
         const formattedDate = inputDate.toLocaleString('en-US', options);
         const fcmToken = userData?.token;
@@ -59,7 +59,7 @@ cron.schedule('* * * * *', async () => {
         alertDate <= inFiveMinutes &&
         alertDate > now
       ) {
-        const userSnap = await db.collection('users').doc(userId).get();
+        const userSnap = await fsdb.collection('users').doc(userId).get();
         const userData = userSnap.data();
         const fcmToken = userData?.token;
         const formattedDate = inputDate.toLocaleString('en-US', options);

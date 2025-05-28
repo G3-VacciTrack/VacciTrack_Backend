@@ -1,12 +1,12 @@
 import type { Context } from 'hono'
-import { db } from '../../utils/firestore';
+import { fsdb } from '../../utils/firebase';
 
 export default async function newUserValidate(c: Context) {
     try {
         const uid: string = c.req.query('uid') || '';
-        const response = await db.collection("users").doc(uid).get();
+        const response = await fsdb.collection("users").doc(uid).get();
         if (!response.exists) {
-            await db.collection("users").doc(uid).set({
+            await fsdb.collection("users").doc(uid).set({
                 firstName: '',
                 lastName: '',
                 age: 0,

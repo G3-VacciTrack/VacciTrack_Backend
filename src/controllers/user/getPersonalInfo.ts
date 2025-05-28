@@ -1,5 +1,5 @@
 import type { Context } from 'hono'
-import { db } from '../../utils/firestore';
+import { fsdb } from '../../utils/firebase';
 
 export default async function getPersonalInfo(c: Context) {
     try {
