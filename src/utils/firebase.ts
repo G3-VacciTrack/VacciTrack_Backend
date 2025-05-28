@@ -1,6 +1,6 @@
 import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-import { getDatabase } from 'firebase-admin/database'; // <-- Import getDatabase
+import { getDatabase } from 'firebase-admin/database';
 
 import serviceAccount from '../../firebaseKey.json' assert { type: 'json' };
 import type { ServiceAccount } from 'firebase-admin/app';
