@@ -1,10 +1,10 @@
 import type { Context } from 'hono'
-import { db } from '../../utils/firestore';
+import { fsdb } from '../../utils/firebase';
 
 export default async function deleteAppointment(c: Context) {
     try {
         const appointmentId: string = c.req.param('appointmentId') || '';
-        const response = await db.collection('appointment').doc(appointmentId).delete();
+        const response = await fsdb.collection('appointment').doc(appointmentId).delete();
         if (!response) {
             return c.json({ message: 'Failed to delete appointment' }, 500);
         }

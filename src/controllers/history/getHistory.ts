@@ -1,10 +1,10 @@
 import type { Context } from 'hono'
-import { db } from '../../utils/firestore';
+import { fsdb } from '../../utils/firebase';
 
 export default async function getHistory(c: Context) {
     try {
         const uid: string = c.req.query('uid') || '';
-        const response = await db.collection("history").where("uid", "==", uid).get();
+        const response = await fsdb.collection("history").where("uid", "==", uid).get();
         if (response.empty) {
             return c.json({ message: 'No history found' }, 404);
         }

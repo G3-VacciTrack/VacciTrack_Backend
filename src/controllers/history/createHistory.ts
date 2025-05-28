@@ -1,12 +1,12 @@
 import type { Context } from 'hono'
-import { db } from '../../utils/firestore';
+import { fsdb } from '../../utils/firebase';
 
 export default async function createHistory(c: Context) {
     try {
         const uid: string = c.req.query('uid') || '';
         const historyData = await c.req.json();
         const { date, description, vaccineName, dose, location } = historyData;
-        const response = await db.collection("history").add({
+        const response = await fsdb.collection("history").add({
             uid,
             date,
             description,

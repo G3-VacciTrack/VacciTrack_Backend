@@ -1,5 +1,5 @@
 import type { Context } from 'hono'
-import { db } from '../../utils/firestore';
+import { fsdb } from '../../utils/firebase';
 
 export default async function createAppointment(c: Context) {
     try {
@@ -17,7 +17,7 @@ export default async function createAppointment(c: Context) {
             0
         );
         const alertDate = new Date(inputDate.getTime() - 60 * 60 * 1000);
-        const response = await db.collection("appointment").add({
+        const response = await fsdb.collection("appointment").add({
             uid,
             date: inputDate,
             alertDate,

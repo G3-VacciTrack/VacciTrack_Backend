@@ -1,10 +1,10 @@
 import type { Context } from 'hono'
-import { db } from '../../utils/firestore';
+import { fsdb } from '../../utils/firebase';
 
 export default async function deleteHistory(c: Context) {
     try {
         const historyId: string = c.req.param('historyId') || '';
-        const response = await db.collection('history').doc(historyId).delete();
+        const response = await fsdb.collection('history').doc(historyId).delete();
         if (!response) {
             return c.json({ message: 'Failed to delete history' }, 500);
         }
