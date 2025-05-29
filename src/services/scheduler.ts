@@ -61,8 +61,8 @@ cron.schedule('* * * * *', async () => {
       ) {
         const userSnap = await fsdb.collection('users').doc(userId).get();
         const userData = userSnap.data();
-        const fcmToken = userData?.token;
         const formattedDate = inputDate.toLocaleString('en-US', options);
+        const fcmToken = userData?.token;
         if (fcmToken) {
           await sendNotification(
             fcmToken,
