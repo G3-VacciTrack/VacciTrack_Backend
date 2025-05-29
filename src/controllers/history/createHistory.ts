@@ -5,13 +5,14 @@ export default async function createHistory(c: Context) {
     try {
         const uid: string = c.req.query('uid') || '';
         const historyData = await c.req.json();
-        const { date, description, vaccineName, dose, location } = historyData;
+        const { date, description, vaccineName, dose, totalDose, location } = historyData;
         const response = await fsdb.collection("history").add({
             uid,
             date,
             description,
             vaccineName,
             dose,
+            totalDose,
             location,
             createdAt: new Date(),
         });
