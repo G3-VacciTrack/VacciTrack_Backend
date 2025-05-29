@@ -1,7 +1,7 @@
 import cron from 'node-cron';
 import { fsdb } from '../utils/firebase';
 import { sendNotification } from './notifier';
-import { options } from '../utils/customDate';
+import { options } from '../utils/date';
 
 cron.schedule('* * * * *', async () => {
   const now = new Date();

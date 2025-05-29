@@ -5,11 +5,11 @@ export default async function editPersonalInfo(c: Context) {
     try {
         const uid: string = c.req.query('uid') || '';
         const personalData = await c.req.json();
-        const { firstName, lastName, age, gender, token } = personalData;
+        const { firstName, lastName, dob, gender, token } = personalData;
         const response = await fsdb.collection("users").doc(uid).update({
             firstName,
             lastName,
-            age,
+            dob,
             gender,
             token,
             verify: true,
