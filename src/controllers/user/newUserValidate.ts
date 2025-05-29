@@ -9,7 +9,7 @@ export default async function newUserValidate(c: Context) {
             await fsdb.collection("users").doc(uid).set({
                 firstName: '',
                 lastName: '',
-                age: 0,
+                dob: '',
                 gender: '',
                 verify: false,
             });
