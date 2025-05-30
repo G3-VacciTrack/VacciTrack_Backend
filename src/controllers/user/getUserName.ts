@@ -7,10 +7,7 @@ export default async function getUserName(c: Context) {
         const response = await fsdb.collection("users").doc(uid).get();
         if (response.exists) {
             const userData = response.data();
-            const userInfo = {
-                fistName: userData?.firstName || '',
-            }
-            return c.json({ name: userInfo }, 200);
+            return c.json({ name: userData?.firstName || '', }, 200);
         }
         return c.json({ message: 'No user found' }, 404);
     } catch (error) {
