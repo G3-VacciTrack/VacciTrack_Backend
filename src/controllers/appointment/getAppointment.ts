@@ -8,7 +8,17 @@ export default async function getAppointment(c: Context) {
         if (response.empty) {
             return c.json({ message: 'No appointment found' }, 404);
         }
-        const appointmentData = response.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const appointmentData = response.docs.map(doc => {
+            const data = doc.data();
+            return {
+                id: doc.id,
+                date: data.date,
+                description: data.description,
+                vaccineName: data.vaccineName,
+                location: data.location,
+                dose: data.dose,
+            };
+        });
         return c.json({ appointment: appointmentData }, 200);
     } catch (error) {
         console.error('Error fetching:', error);
