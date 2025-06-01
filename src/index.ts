@@ -14,11 +14,11 @@ const app = new Hono()
 app.use('*', cors())
 app.use(logger())
 
-app.route('/api/user', user)
-app.route('/api/history', history)
-app.route('/api/appointment', appointment);
-app.route('/api/disease', disease);
-app.route('/api/education', education);
+app.route('/user', user)
+app.route('/history', history)
+app.route('/appointment', appointment);
+app.route('/disease', disease);
+app.route('/education', education);
 
 Bun.serve({
   fetch(req) {
