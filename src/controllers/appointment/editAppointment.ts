@@ -1,23 +1,37 @@
-import type { Context } from 'hono'
-import { fsdb } from '../../utils/firebase';
+import type { Context } from 'hono';
+import { fsdb } from '../../utils/firebase'; // Assuming fsdb is already initialized Firestore instance
 
 export default async function editAppointment(c: Context) {
     try {
         const appointmentId: string = c.req.param('appointmentId') || '';
+        const uid: string = c.req.query('uid') || '';
+
+        const appointmentRef = fsdb.collection("appointment").doc(appointmentId);
+        const existingAppointmentDoc = await appointmentRef.get();
+
+        if (!existingAppointmentDoc.exists) {
+            return c.json({ message: 'Appointment not found' }, 404);
+        }
+
+        const existingAppointmentData = existingAppointmentDoc.data();
+        const ownerUid: string = existingAppointmentData?.uid;
+        if (ownerUid !== uid) {
+            return c.json({ message: 'Unauthorized: You do not have permission to edit this appointment' }, 403);
+        }
+
         const appointmentData = await c.req.json();
         const { date, description, vaccineName, dose, location } = appointmentData;
+
         const inputDate = new Date(date);
         const dateBeforeNoon = new Date(
             inputDate.getFullYear(),
             inputDate.getMonth(),
             inputDate.getDate() - 1,
             12,
-            0,
-            0,
-            0
+            0, 0, 0
         );
         const alertDate = new Date(inputDate.getTime() - 60 * 60 * 1000);
-        const response = await fsdb.collection("appointment").doc(appointmentId).update({
+        await appointmentRef.update({
             date: inputDate,
             alertDate,
             dateBeforeNoon,
@@ -27,12 +41,11 @@ export default async function editAppointment(c: Context) {
             location,
             updateAt: new Date(),
         });
-        if (!response) {
-            return c.json({ message: 'Failed to create appointment' }, 500);
-        }
+
         return c.json({ message: "Appointment update success" }, 200);
+
     } catch (error) {
-        console.error('Error fetching:', error);
-        return c.json({ message: 'Internal server error' }, 500);
+        console.error('Error updating appointment:', error);
+        return c.json({ message: 'Internal server error during appointment update' }, 500);
     }
 }
