@@ -5,7 +5,7 @@ export default async function createAppointment(c: Context) {
     try {
         const uid: string = c.req.query('uid') || '';
         const appointmentData = await c.req.json();
-        const { date, description, vaccineName, dose, totalDose, location } = appointmentData;
+        const { date, description, vaccineName, diseaseName, dose, totalDose, location } = appointmentData;
         const inputDate = new Date(date);
         const dateBeforeNoon = new Date(
             inputDate.getFullYear(),
@@ -24,7 +24,8 @@ export default async function createAppointment(c: Context) {
             dateBeforeNoon,
             description,
             vaccineName,
-            notifiedAleartDate: false,
+            diseaseName,
+            notifiedAlertDate: false,
             notifiedBeforeNoon: false,
             dose,
             totalDose,

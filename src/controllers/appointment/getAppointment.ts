@@ -21,6 +21,7 @@ export default async function getAppointment(c: Context) {
                     location: data.location,
                     dose: data.dose,
                     totalDose: data.totalDose,
+                    diseaseName: data.diseaseName,
                 };
             });
         return c.json({ appointment: appointmentData }, 200);

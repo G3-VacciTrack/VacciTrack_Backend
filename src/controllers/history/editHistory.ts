@@ -5,10 +5,11 @@ export default async function editHistory(c: Context) {
     try {
         const historyId: string = c.req.param('historyId') || '';
         const historyData = await c.req.json();
-        const { date, description, vaccineName, dose, location } = historyData;
+        const { date, description, vaccineName, disease, dose, location } = historyData;
         const response = await fsdb.collection('history').doc(historyId).update({
             date,
             vaccineName,
+            disease,
             description,
             dose,
             location,
