@@ -3,7 +3,7 @@ import { rtdb } from '../../utils/firebase';
 
 export default async function getAllDisease(c: Context) {
     try {
-        const snapshot = await rtdb.ref('Disease').once('value');
+        const snapshot = await rtdb.ref('disease').once('value');
         const data = snapshot.val();
         if (!data) {
             return c.json({ disease: [], message: 'No disease found' }, 200);

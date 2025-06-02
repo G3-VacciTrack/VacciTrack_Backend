@@ -48,12 +48,11 @@ cron.schedule('* * * * *', async () => {
           await sendNotification(
             fcmToken,
             '⏰ Appointment Reminder',
-            `Reminder: Your ${dose} of ${vaccineName} is coming up at ${location} on ${formattedDate}. Don't forget!`
+            `Reminder: Your dose ${dose} of ${vaccineName} is coming up at ${location} on ${formattedDate}. Don't forget!`
           );
           await doc.ref.update({ notifiedBeforeNoon: true });
         }
-      }
-      if (
+      }else if (
         !data.notifiedAlertDate &&
         alertDate &&
         alertDate <= inFiveMinutes &&
