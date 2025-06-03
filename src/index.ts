@@ -29,11 +29,7 @@ app.route('/appointment', appointment);
 app.route('/disease', disease);
 app.route('/education', education);
 
-Bun.serve({
-  fetch(req) {
-    return app.fetch(req)
-  },
-  port: 3001,
-})
-
-export default app
+export default { 
+  port: 3001, 
+  fetch: app.fetch, 
+} 
