@@ -1,10 +1,11 @@
 import type { Context } from 'hono'
 import { fsdb } from '../../utils/firebase';
+import type { UserRequest } from '../../types/user';
 
 export default async function editPersonalInfo(c: Context) {
     try {
         const uid: string = c.req.query('uid') || '';
-        const personalData = await c.req.json();
+        const personalData: UserRequest = await c.req.json();
         const { firstName, lastName, dob, gender, token } = personalData;
         const response = await fsdb.collection("users").doc(uid).update({
             firstName,

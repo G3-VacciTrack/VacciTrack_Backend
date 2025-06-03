@@ -2,6 +2,7 @@ import type { Context } from 'hono'
 import { fsdb } from '../../utils/firebase';
 
 import { formatDate, calculateAge } from '../../utils/date';
+import type { UserResponse } from '../../types/user';
 
 export default async function getPersonalInfo(c: Context) {
     try {
@@ -9,11 +10,11 @@ export default async function getPersonalInfo(c: Context) {
         const response = await fsdb.collection("users").doc(uid).get();
         if (response.exists) {
             const userData = response.data();
-            const userInfo = {
+            const userInfo: UserResponse = {
                 fistName: userData?.firstName || '',
                 lastName: userData?.lastName || '',
                 dob: userData?.dob ? formatDate(userData?.dob) : '',
-                age: userData?.dob ? calculateAge(userData?.dob) : '',
+                age: userData?.dob ? calculateAge(userData?.dob) : 0,
                 gender: userData?.gender || '',
             }
             return c.json({ user: userInfo }, 200);
