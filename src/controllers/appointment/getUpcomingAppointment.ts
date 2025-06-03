@@ -1,6 +1,8 @@
 import type { Context } from 'hono'
 import { fsdb } from '../../utils/firebase';
 
+import type { AppointmentRequest } from '../../types/appointment';
+
 export default async function getUpcomingAppointment(c: Context) {
     try {
         const uid: string = c.req.query('uid') || '';
@@ -9,7 +11,7 @@ export default async function getUpcomingAppointment(c: Context) {
             return c.json({ message: 'No appointment found' }, 404);
         }
         const now = new Date();
-        const appointmentData = response.docs
+        const appointmentData:AppointmentRequest[] = response.docs
             .filter(doc => doc.data().date.toDate() >= now)
             .map(doc => {
                 const data = doc.data();

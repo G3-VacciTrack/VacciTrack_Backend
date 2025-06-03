@@ -1,10 +1,12 @@
 import type { Context } from 'hono'
 import { fsdb } from '../../utils/firebase';
 
+import type { AppointmentRequest } from '../../types/appointment';
+
 export default async function createHistory(c: Context) {
     try {
         const uid: string = c.req.query('uid') || '';
-        const historyData = await c.req.json();
+        const historyData: AppointmentRequest = await c.req.json();
         const { date, description, vaccineName, diseaseName, dose, totalDose, location } = historyData;
         const response = await fsdb.collection("history").add({
             uid,

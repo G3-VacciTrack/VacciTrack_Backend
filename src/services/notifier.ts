@@ -10,7 +10,6 @@ export async function sendNotification(token: string, title: string, body: strin
       body,
     },
   };
-
   try {
     await messaging.send(message);
     console.log(`Sent to ${token}`);

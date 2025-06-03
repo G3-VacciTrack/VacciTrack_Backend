@@ -1,7 +1,8 @@
 import { Hono } from 'hono'
-import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
+import { rateLimiter } from 'hono-rate-limiter'
 import './services/scheduler';
+import { corsConfig } from './config/cors.config';
 
 import user from './routes/user'
 import history from './routes/history'
@@ -11,7 +12,15 @@ import education from './routes/education';
 
 const app = new Hono()
 
-app.use('*', cors())
+app.use(corsConfig)
+app.use(
+  '*',
+  rateLimiter({
+    windowMs: 60 * 1000,
+    limit: 100,
+    keyGenerator: (c) => c.req.header('x-forwarded-for') || c.req.header('cf-connecting-ip') || 'unknown'
+  })
+)
 app.use(logger())
 
 app.route('/user', user)

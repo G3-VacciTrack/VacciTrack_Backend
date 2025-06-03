@@ -1,6 +1,8 @@
 import type { Context } from 'hono';
 import { fsdb } from '../../utils/firebase';
 
+import type { AppointmentRequest } from '../../types/appointment';
+
 export default async function editAppointment(c: Context) {
     try {
         const appointmentId: string = c.req.param('appointmentId') || '';
@@ -19,7 +21,7 @@ export default async function editAppointment(c: Context) {
             return c.json({ message: 'Unauthorized: You do not have permission to edit this appointment' }, 403);
         }
 
-        const appointmentData = await c.req.json();
+        const appointmentData: AppointmentRequest = await c.req.json();
         const { date, description, vaccineName, dose, totalDose, location } = appointmentData;
 
         const inputDate = new Date(date);
@@ -42,9 +44,7 @@ export default async function editAppointment(c: Context) {
             location,
             updateAt: new Date(),
         });
-
         return c.json({ message: "Appointment update success" }, 200);
-
     } catch (error) {
         console.error('Error updating appointment:', error);
         return c.json({ message: 'Internal server error during appointment update' }, 500);

@@ -17,6 +17,7 @@
   "dependencies": {
     "firebase-admin": "^13.4.0",
     "hono": "^4.7.9",
+    "hono-rate-limiter": "^0.4.2",
     "node-cron": "^4.0.7"
   }
 }

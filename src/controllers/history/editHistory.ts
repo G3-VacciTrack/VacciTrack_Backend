@@ -1,10 +1,12 @@
 import type { Context } from 'hono'
 import { fsdb } from '../../utils/firebase';
 
+import type { HistoryRequest } from '../../types/history';
+
 export default async function editHistory(c: Context) {
     try {
         const historyId: string = c.req.param('historyId') || '';
-        const historyData = await c.req.json();
+        const historyData: HistoryRequest = await c.req.json();
         const { date, description, vaccineName, diseaseName, dose, totalDose, location } = historyData;
         const response = await fsdb.collection('history').doc(historyId).update({
             date,

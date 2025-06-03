@@ -1,12 +1,16 @@
 import type { Context } from 'hono'
 import { fsdb } from '../../utils/firebase';
 
+import type { AppointmentRequest } from '../../types/appointment';
+
 export default async function createAppointment(c: Context) {
     try {
         const uid: string = c.req.query('uid') || '';
-        const appointmentData = await c.req.json();
+        if (!uid) return c.json({ message: 'UID is required' }, 400);
+        const appointmentData: AppointmentRequest = await c.req.json();
         const { date, description, vaccineName, diseaseName, dose, totalDose, location } = appointmentData;
-        const inputDate = new Date(date);
+
+        const inputDate: Date = new Date(date);
         const dateBeforeNoon = new Date(
             inputDate.getFullYear(),
             inputDate.getMonth(),
@@ -16,7 +20,8 @@ export default async function createAppointment(c: Context) {
             0,
             0
         );
-        const alertDate = new Date(inputDate.getTime() - 60 * 60 * 1000);
+        const alertDate: Date = new Date(inputDate.getTime() - 60 * 60 * 1000); // 1 hour before
+
         const response = await fsdb.collection("appointment").add({
             uid,
             date: inputDate,
