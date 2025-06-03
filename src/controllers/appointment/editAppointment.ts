@@ -1,5 +1,5 @@
 import type { Context } from 'hono';
-import { fsdb } from '../../utils/firebase'; // Assuming fsdb is already initialized Firestore instance
+import { fsdb } from '../../utils/firebase';
 
 export default async function editAppointment(c: Context) {
     try {
@@ -20,7 +20,7 @@ export default async function editAppointment(c: Context) {
         }
 
         const appointmentData = await c.req.json();
-        const { date, description, vaccineName, dose, location } = appointmentData;
+        const { date, description, vaccineName, dose, totalDose, location } = appointmentData;
 
         const inputDate = new Date(date);
         const dateBeforeNoon = new Date(
@@ -38,6 +38,7 @@ export default async function editAppointment(c: Context) {
             description,
             vaccineName,
             dose,
+            totalDose,
             location,
             updateAt: new Date(),
         });
