@@ -22,7 +22,7 @@ export default async function editAppointment(c: Context) {
         }
 
         const appointmentData: AppointmentRequest = await c.req.json();
-        const { date, description, vaccineName, dose, totalDose, location } = appointmentData;
+        const { memberName, date, description, vaccineName, dose, totalDose, location } = appointmentData;
 
         const inputDate = new Date(date);
         const dateBeforeNoon = new Date(
@@ -34,6 +34,7 @@ export default async function editAppointment(c: Context) {
         );
         const alertDate = new Date(inputDate.getTime() - 60 * 60 * 1000);
         await appointmentRef.update({
+            memberName,
             date: inputDate,
             alertDate,
             dateBeforeNoon,

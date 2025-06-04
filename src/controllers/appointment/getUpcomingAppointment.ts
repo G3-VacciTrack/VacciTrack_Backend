@@ -16,6 +16,7 @@ export default async function getUpcomingAppointment(c: Context) {
             .map(doc => {
                 const data = doc.data();
                 return {
+                    memberName: data.memberName,
                     id: doc.id,
                     date: data.date,
                     description: data.description,

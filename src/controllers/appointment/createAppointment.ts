@@ -8,7 +8,7 @@ export default async function createAppointment(c: Context) {
         const uid: string = c.req.query('uid') || '';
         if (!uid) return c.json({ message: 'UID is required' }, 400);
         const appointmentData: AppointmentRequest = await c.req.json();
-        const { date, description, vaccineName, diseaseName, dose, totalDose, location } = appointmentData;
+        const { memberName, date, description, vaccineName, diseaseName, dose, totalDose, location } = appointmentData;
 
         const inputDate: Date = new Date(date);
         const dateBeforeNoon = new Date(
@@ -20,10 +20,11 @@ export default async function createAppointment(c: Context) {
             0,
             0
         );
-        const alertDate: Date = new Date(inputDate.getTime() - 60 * 60 * 1000); // 1 hour before
+        const alertDate: Date = new Date(inputDate.getTime() - 60 * 60 * 1000);
 
         const response = await fsdb.collection("appointment").add({
             uid,
+            memberName,
             date: inputDate,
             alertDate,
             dateBeforeNoon,

@@ -9,6 +9,7 @@ import history from './routes/history'
 import appointment from './routes/appointment'
 import disease from './routes/disease';
 import education from './routes/education';
+import family from './routes/family';
 
 const app = new Hono()
 
@@ -28,6 +29,7 @@ app.route('/history', history)
 app.route('/appointment', appointment);
 app.route('/disease', disease);
 app.route('/education', education);
+app.route('family', family);
 
 export default { 
   port: 3001, 
