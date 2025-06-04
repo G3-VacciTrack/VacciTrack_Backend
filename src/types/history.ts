@@ -1,11 +1,12 @@
 export type HistoryRequest = {
-    date: string;
-    description: string;
-    vaccineName: string;
-    diseaseName: string;
-    dose: number;
-    totalDose: number;
-    location: string;
+  memberName: string;
+  date: string;
+  description: string;
+  vaccineName: string;
+  diseaseName: string;
+  dose: number;
+  totalDose: number;
+  location: string;
 }
 
 export type HistoryResponse = {
