@@ -29,6 +29,7 @@ cron.schedule('* * * * *', async () => {
       const vaccineName = data.vaccineName || 'your vaccine';
       const location = data.location || 'your location';
       const dose = data.dose || 'a dose';
+      const memberName = data.memberName || 'the member';
 
       const dateBeforeNoonDate = data.dateBeforeNoon.toDate();
       const alertDate = data.alertDate.toDate();
@@ -47,12 +48,12 @@ cron.schedule('* * * * *', async () => {
         if (fcmToken) {
           await sendNotification(
             fcmToken,
-            '⏰ Appointment Reminder',
+            `⏰ Appointment Reminder for ${memberName}`,
             `Reminder: Your dose ${dose} of ${vaccineName} is coming up at ${location} on ${formattedDate}. Don't forget!`
           );
           await doc.ref.update({ notifiedBeforeNoon: true });
         }
-      }else if (
+      } else if (
         !data.notifiedAlertDate &&
         alertDate &&
         alertDate <= inFiveMinutes &&
@@ -65,8 +66,8 @@ cron.schedule('* * * * *', async () => {
         if (fcmToken) {
           await sendNotification(
             fcmToken,
-            '📅 Appointment Reminder',
-            `Reminder: Your ${dose} of ${vaccineName} is coming up at ${location} on ${formattedDate}. Don't forget!`
+            `📅 Appointment Reminder for ${memberName}`,
+            `Reminder: Your dose ${dose} of ${vaccineName} is coming up at ${location} on ${formattedDate}. Don't forget!`
           );
           await doc.ref.update({ notifiedAlertDate: true });
         }
