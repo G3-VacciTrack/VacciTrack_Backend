@@ -29,7 +29,7 @@ app.route('/history', history)
 app.route('/appointment', appointment);
 app.route('/disease', disease);
 app.route('/education', education);
-app.route('family', family);
+app.route('/family', family);
 
 export default { 
   port: 3001, 
