@@ -11,16 +11,26 @@ export default async function getAllMembersName(c: Context) {
         }
         const response = await fsdb.collection("family").where("uid", "==", uid).get();
         if (response.empty) {
-            return c.json({ message: 'No family members found' }, 404);
+            const myName = await fsdb.collection("users").doc(uid).get();
+            if (!myName.exists) {
+                return c.json({ message: 'No family members found' }, 404);
+            }
+            const myNameData = myName.data();
+            return c.json({
+                members: [{
+                    id: uid,
+                    fullName: myNameData?.firstName + ' ' + myNameData?.lastName,
+                }],
+            }, 200);
         }
         const memberData: NameResponse[] = response.docs
-                    .map(doc => {
-                        const data = doc.data();
-                        return {
-                            id: doc.id,
-                            fullName: data.firstName + ' ' + data.lastName,
-                        };
-                    });
+            .map(doc => {
+                const data = doc.data();
+                return {
+                    id: doc.id,
+                    fullName: data.firstName + ' ' + data.lastName,
+                };
+            });
         const myName = await fsdb.collection("users").doc(uid).get();
         if (!myName.exists) {
             return c.json({ message: 'User not found' }, 404);
