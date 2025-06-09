@@ -8,7 +8,7 @@ export default async function getUpcomingAppointment(c: Context) {
         const uid: string = c.req.query('uid') || '';
         const response = await fsdb.collection("appointment").where("uid", "==", uid).get();
         if (response.empty) {
-            return c.json({ message: 'No appointment found' }, 404);
+            return c.json({ message: 'No appointment found' }, 200);
         }
         const now = new Date();
         const appointmentData:AppointmentRequest[] = response.docs
